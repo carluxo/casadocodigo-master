@@ -30,7 +30,7 @@
 						<td>${usuario.email }</td>
 						<td>${usuario.roles }</td>
 						<td>
-							<a href="#"><img src="${imagesPath }roles.png" alt="Permissões" /></a>
+							<a href="${s:mvcUrl('UC#permissoes').arg(0, usuario.email).build()}"><img src="${imagesPath }roles.png" alt="Permissões" /></a>
 						</td>
 					</tr>
 				</c:forEach>

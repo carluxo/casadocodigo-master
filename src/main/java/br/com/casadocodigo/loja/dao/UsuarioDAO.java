@@ -20,7 +20,7 @@ public class UsuarioDAO implements UserDetailsService {
 	private EntityManager manager;
 
 	public Usuario loadUserByUsername(String email) {
-		List<Usuario> usuarios = manager.createQuery("select u from Usuario u where email = :email", Usuario.class)
+		List<Usuario> usuarios = manager.createQuery("SELECT DISTINCT(u) FROM Usuario u LEFT JOIN FETCH u.roles WHERE u.email = :email", Usuario.class)
 				.setParameter("email", email).getResultList();
 
 		if (usuarios.isEmpty()) {
@@ -35,6 +35,10 @@ public class UsuarioDAO implements UserDetailsService {
 	}
 
 	public List<Usuario> listar() {
-		return manager.createQuery("SELECT u FROM Usuario u LEFT JOIN FETCH u.roles", Usuario.class).getResultList();
+		return manager.createQuery("SELECT DISTINCT(u) FROM Usuario u LEFT JOIN FETCH u.roles", Usuario.class).getResultList();
+	}
+
+	public void atualizar(Usuario usuario) {
+		manager.merge(usuario);
 	}
 }
